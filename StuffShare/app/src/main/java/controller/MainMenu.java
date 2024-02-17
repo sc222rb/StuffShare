@@ -18,8 +18,8 @@ public class MainMenu {
 
   private void createNewMember() {
     model.Member newMember = mainMenuView.createNewMember();
-    model.Member createdmember = lendingModel.addNewMember(newMember);
-    System.out.println(createdmember.getName() + " has been added to the library system.");
+    model.Member m = lendingModel.addNewMember(newMember);
+    System.out.println(m.getName() + " has been added to the library system.");
   }
 
 }

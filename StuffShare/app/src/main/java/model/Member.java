@@ -1,11 +1,13 @@
 package model;
 
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * Represents a member of the library.
  */
 public class Member {
+  private String id;
   private String name; 
   private Email email;
   private PhoneNumber phoneNumber;
@@ -120,11 +122,31 @@ public class Member {
     }
   }
 
-
+  /**
+   * Constructs a new Member object with the provided Name, Email, and
+   * PhoneNumber.
+   * Initializes the member with zero credits, a creation day of 0, and an empty
+   * list of owned items.
+   *
+   * @param name        The Name of the member.
+   * @param email       The Email address of the member.
+   * @param phoneNumber The PhoneNumber of the member.
+   */
   public Member(String name, Email email, PhoneNumber phoneNumber) {
     this.name = name;
     this.email = email;
     this.phoneNumber = phoneNumber;
+  }
+
+  public Member(String id, String name, Email email, PhoneNumber phoneNumber) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+    this.phoneNumber = phoneNumber;
+  }
+
+  public String getId() {
+    return id;
   }
 
   public String getName() {
@@ -137,5 +159,15 @@ public class Member {
 
   public PhoneNumber getPhoneNumber() {
     return phoneNumber;
+  }
+
+  protected String generateMemberId() {
+    String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    Random random = new Random();
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < 6; i++) {
+      sb.append(characters.charAt(random.nextInt(characters.length())));
+    }
+    return sb.toString();
   }
 }
