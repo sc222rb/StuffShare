@@ -1,5 +1,6 @@
 package view;
 
+import java.util.Optional;
 import java.util.Scanner;
 import model.LendingModel;
 import model.Member;
@@ -13,16 +14,25 @@ public class MainMenuView {
     this.input = input;
   }
 
-  public Member createNewMember() {
-    System.out.println("Enter the name: ");
-    String name = input.nextLine();
-    System.out.println("email: ");
-    String emailStr = input.nextLine();
-    Email email = new Email(emailStr);
-    System.out.println("phone number: ");
-    String phoneNumberStr = input.nextLine();
-    PhoneNumber phoneNumber = new PhoneNumber(phoneNumberStr);
+  /**
+   * Represents the main menu actions.
+   */
+  public static enum MainMenuEvent {
+    AddMember
+  }
 
-    return new Member(name, email, phoneNumber);
+  public Optional<MainMenuEvent> showMainMenu(){
+    final String addString = "add";
+
+    System.out.println(" == Main Menu ==");
+    System.out.println(" " + addString + " - Add New Member");
+    String choice = input.nextLine(); 
+
+    switch (choice) {
+      case addString:
+        return Optional.of(MainMenuEvent.AddMember);
+      default:
+        return Optional.empty();
+    }
   }
 }

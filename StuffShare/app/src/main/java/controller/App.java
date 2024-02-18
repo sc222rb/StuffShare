@@ -15,9 +15,10 @@ public class App {
 
     Scanner scanner = new Scanner(System.in, "UTF8");
     view.MainMenuView mainMenu = new view.MainMenuView(scanner);
+    view.MemberView memberView = new view.MemberView(scanner);
 
     model.LendingModel lendingModel = new model.LendingModel();
-    controller.MainMenu mm = new controller.MainMenu(mainMenu, lendingModel);
+    controller.MainMenu mm = new controller.MainMenu(mainMenu, memberView, lendingModel);
 
     mm.doMainMenu();
 
