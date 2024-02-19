@@ -3,6 +3,8 @@ package view;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Collection;
+
+import model.Contract;
 import model.Item;
 import model.Item.Category;
 import model.Member;
@@ -179,7 +181,11 @@ public class MemberView {
 
   public void printItem(Item item) {
     System.out.println(
-        "Category: " + item.getCategory() + " name : " + item.getName() + ": " + item.getCost());
+        "Category: " + item.getCategory() + " name : " + item.getName() + ": " + item.getCost() + " Contracts: ");
+    for (Contract contract : item.getContracts()) {
+      System.out.println("Renter: " + contract.getRenter().getName());
+      System.out.println("From day: " + contract.getStartingDay() + " To day: " + contract.getEndingDay());
+    }
   }
 
   public void printItems(Iterable<? extends Item> items) {
@@ -208,6 +214,15 @@ public class MemberView {
     }
 
     return null;
+  }
+
+  public Contract rentItem(Member renter, Item selectedItem) {
+    System.out.println("Enter the starting day: ");
+    int startingDay = Integer.parseInt(input.nextLine());
+    System.out.println("Enter the ending day: ");
+    int endingDay = Integer.parseInt(input.nextLine());
+
+    return new Contract(renter, selectedItem, startingDay, endingDay);
   }
 
 }

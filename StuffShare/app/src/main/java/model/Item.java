@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * Represents a item.
  */
@@ -22,6 +24,7 @@ public class Item {
   private String description;
   private int cost;
   private int dayOfCreation;
+  protected ArrayList<Contract> contracts;
 
   /**
    * Initializing constructor.
@@ -37,6 +40,7 @@ public class Item {
     this.description = description;
     this.cost = cost;
     this.dayOfCreation = dayOfCreation;
+    this.contracts = new ArrayList<>();
   }
 
   /**
@@ -50,6 +54,11 @@ public class Item {
     description = item.description;
     cost = item.cost;
     dayOfCreation = item.dayOfCreation;
+    contracts = new ArrayList<>(item.contracts.size());
+
+    for (Contract c : item.contracts) {
+      contracts.add(new Contract(c));
+    }
   }
 
   public Category getCategory() {
@@ -76,6 +85,14 @@ public class Item {
     description = newDescription;
   }
 
+  public int getCost() {
+    return cost;
+  }
+
+  public void setCost(int newCost) {
+    cost = newCost;
+  }
+
   public int getDayOfCreation() {
     return dayOfCreation;
   }
@@ -84,13 +101,45 @@ public class Item {
     dayOfCreation = newDayOfCreation;
   }
 
-  public int getCost() {
-    return cost;
+  public Iterable<Contract> getContracts() {
+    return new ArrayList<>(contracts);
   }
 
-  public void setCost(int newCost) {
-    cost = newCost;
+  public void addContract(Contract contract) {
+    contracts.add(new Contract(contract));
   }
+
+  /**
+   * Checks if a new contract can be added without overlapping with any existing contracts.
+   *
+   * @param newContract the new contract to be checked
+   * @return true if the new contract does not overlap with any existing contracts, false otherwise
+   */
+  public boolean checkAvailability(Contract newContract) {
+    for (Contract contract : contracts) {
+      if (contract.overlaps(newContract)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Checks if a renter has enough credits to cover the cost of a new contract.
+   *
+   * @param newContract the new contract to be checked
+   * @return true if the renter has enough credits to cover the cost, false otherwise
+   */
+  public boolean checkCredits(Contract newContract) {
+    Member renter = newContract.getRenter();
+    int renterCredits = renter.getCredits();
+    int totalCost = newContract.calculateCost();
+    if (renterCredits < totalCost) {
+      return false;
+    }
+    return true;
+  }
+
 
   protected void setNameProt(String newName) {
     model.validation.Str strv = new model.validation.Str();

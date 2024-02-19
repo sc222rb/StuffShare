@@ -145,6 +145,17 @@ public class Member {
     this.ownedItems = new ArrayList<>();
   }
 
+   /**
+   * Initializing constructor.
+   *
+   * @param id            the id of the member.
+   * @param name          the name of the member.
+   * @param email         the email of the member.
+   * @param phoneNumber   the phone number of the member.
+   * @param credits       the credits of the member.
+   * @param dayOfCreation the day of creation of the member.
+   * @param ownedItems    the items of the member.
+   */
   public Member(String id, String name, Email email, PhoneNumber phoneNumber, int credits, int dayOfCreation,
   Collection<Item> ownedItems) {
     this.id = id;
@@ -154,6 +165,25 @@ public class Member {
     this.credits = credits;
     this.dayOfCreation = dayOfCreation;
     this.ownedItems = new ArrayList<>(ownedItems);
+  }
+
+  /**
+   * Deep copy constructor.
+   *
+   * @param m the member to copy.
+   */
+  public Member(Member m) {
+    id = m.id;
+    name = m.name;
+    email = m.email;
+    phoneNumber = m.phoneNumber;
+    credits = m.credits;
+    dayOfCreation = m.dayOfCreation;
+    ownedItems = new ArrayList<>(m.ownedItems.size());
+
+    for (Item i : m.ownedItems) {
+      ownedItems.add(new Item(i));
+    }
   }
 
   public String getId() {

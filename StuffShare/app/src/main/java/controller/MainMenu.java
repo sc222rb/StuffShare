@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Optional;
 
+import model.Contract;
 import model.Item;
 import model.LendingModel;
 import model.Member;
@@ -114,6 +115,19 @@ public class MainMenu {
         memberView.printItem(selectedItem);
         Item editedItem = memberView.editItem(selectedItem);
         selectedMember.replaceItem(selectedItem, editedItem);
+        break;
+      case RentItem:
+        Member renter = selectedMember;
+        Member owner = memberView.getSelectedMember(lendingModel.getMembers());
+        selectedItem = memberView.getSelectedItem(owner.getItems());
+        memberView.printItem(selectedItem);
+        Contract newContract = memberView.rentItem(renter, selectedItem);
+        if (selectedItem.checkCredits(newContract)
+            && selectedItem.checkAvailability(newContract)) {
+          selectedItem.addContract(newContract);
+        } else {
+          mainMenuView.errorMessage("Can't add contract.");
+        }
         break;
       case Back:
         return false;
