@@ -1,9 +1,10 @@
 package view;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Scanner;
-
+import java.util.Collection;
+import model.Item;
+import model.Item.Category;
 import model.Member;
 import model.Member.Email;
 import model.Member.PhoneNumber;
@@ -50,11 +51,15 @@ public class MemberView {
     String emailStr = input.nextLine();
     System.out.println("phone number: ");
     String phoneNumberStr = input.nextLine();
+    System.out.println("credits: ");
+    int credits = Integer.parseInt(input.nextLine());
+    int dayOfCreation = selectedMember.getDayOfCreation();
+    Collection<Item> items = selectedMember.getItems();
     String id = selectedMember.getId();
     Email email = new Email(emailStr);
     PhoneNumber phoneNumber = new PhoneNumber(phoneNumberStr);
 
-    return new Member(id, name, email, phoneNumber);
+    return new Member(id, name, email, phoneNumber, credits, dayOfCreation, items);
   }
 
   public void printMember(Member m) {
@@ -104,6 +109,56 @@ public class MemberView {
     }
 
     return null;
+  }
+
+  public Event showMemberMenu(Member selectedMember) {
+    printMember(selectedMember);
+
+    final String addString = "add";
+    final String viewString = "view";
+    final String deleteString = "delete";
+    final String editString = "edit";
+    final String rentItemString = "rent";
+    final String backString = "b";
+
+    System.out.println(" == Member Menu ==");
+    System.out.println(" " + addString + " - Add an item");
+    System.out.println(" " + deleteString + " - Delete an item");
+    System.out.println(" " + viewString + " - View details");
+    System.out.println(" " + editString + " - Edit an Item");
+    System.out.println(" " + rentItemString + " - Rent an item");
+    System.out.println(" " + backString + " - back");
+
+    String choice = input.nextLine();
+
+    if (choice.equals(backString)) {
+      return Event.Back;
+    } else if (choice.equals(addString)) {
+      return Event.AddItem;
+    } else if (choice.equals(viewString)) {
+      return Event.View;
+    } else if (choice.equals(editString)) {
+      return Event.Edit;
+    } else if (choice.equals(rentItemString)) {
+      return Event.RentItem;
+    } else {
+      return Event.Delete;
+    }
+  }
+
+  public Item createNewItem() {
+    System.out.println("Category: Tool, Vehicle, Game, Toy, Sport or Other: ");
+    final String categoryStr = input.nextLine();
+    final Category category = Category.valueOf(categoryStr); // convert to enum
+    System.out.println("New item's name: ");
+    String name = input.nextLine();
+    System.out.println("New item's descriotion: ");
+    String description = input.nextLine();
+    System.out.println("New item's cost: ");
+    int cost = Integer.parseInt(input.nextLine());
+    int dayOfCreation = 0;
+
+    return new Item(category, name, description, cost, dayOfCreation);
   }
 
 }

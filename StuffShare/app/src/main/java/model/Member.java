@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Random;
 
@@ -11,7 +13,9 @@ public class Member {
   private String name; 
   private Email email;
   private PhoneNumber phoneNumber;
-
+  private int credits;
+  private int dayOfCreation;
+  private ArrayList<Item> ownedItems;
 
   /**
    * The Email class represents a valid email address in the format "x@y".
@@ -136,13 +140,20 @@ public class Member {
     this.name = name;
     this.email = email;
     this.phoneNumber = phoneNumber;
+    this.credits = 0;
+    this.dayOfCreation = 0;
+    this.ownedItems = new ArrayList<>();
   }
 
-  public Member(String id, String name, Email email, PhoneNumber phoneNumber) {
+  public Member(String id, String name, Email email, PhoneNumber phoneNumber, int credits, int dayOfCreation,
+  Collection<Item> ownedItems) {
     this.id = id;
     this.name = name;
     this.email = email;
     this.phoneNumber = phoneNumber;
+    this.credits = credits;
+    this.dayOfCreation = dayOfCreation;
+    this.ownedItems = new ArrayList<>(ownedItems);
   }
 
   public String getId() {
@@ -170,4 +181,64 @@ public class Member {
     }
     return sb.toString();
   }
+
+  /**
+   * add new item.
+   *
+   * @param item item to add.
+   */
+  public void addItem(Item item) {
+    if (!canAddItem(item)) {
+      throw new IllegalArgumentException("Unable to add item");
+    }
+
+    ownedItems.add(new Item(item));
+    setBonusCredits(100);
+  }
+
+  /**
+   * Checks if a new item can be added to a group without overlapping with any
+   * existing items name.
+   *
+   * @param newItem the new item to be added
+   * @return true if the new item's name does not overlap with any existing item,
+   *         false otherwise
+   */
+  public boolean canAddItem(Item newItem) {
+    for (Item item : getItems()) {
+      if (item.overlaps(newItem)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public Collection<Item> getItems() {
+    return new ArrayList<>(ownedItems);
+  }
+
+  public int getDayOfCreation() {
+    return dayOfCreation;
+  }
+
+  public int getCredits() {
+    return credits;
+  }
+
+  public int getItemCount() {
+    return ownedItems.size();
+  }
+
+  public void setCredits(int newCredits) {
+    credits = newCredits;
+  }
+
+  public void setDayOfCreation(int newDayOfCreation) {
+    dayOfCreation = newDayOfCreation;
+  }
+
+  protected void setBonusCredits(int bonusCredits) {
+    credits += bonusCredits;
+  }
+
 }

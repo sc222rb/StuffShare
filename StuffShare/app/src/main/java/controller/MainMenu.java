@@ -1,6 +1,8 @@
 package controller;
 
 import java.util.Optional;
+
+import model.Item;
 import model.LendingModel;
 import model.Member;
 import view.MainMenuView;
@@ -92,9 +94,22 @@ public class MainMenu {
   }
 
   private boolean doMemberMenu(Member selectedMember) {
-    System.out.println("Selected member: " + selectedMember.getName());
-    return false
-    ;
+    MemberView.Event action = memberView.showMemberMenu(selectedMember);
+    switch (action) {
+      default:
+      case AddItem:
+        createNewItem(selectedMember);
+        break;
+      case Back:
+        return false;
+    }
+
+    return true;
+  }
+
+  private void createNewItem(Member selectedMember) {
+    model.Item newItem = memberView.createNewItem();
+    selectedMember.addItem(newItem);
   }
 
 }
