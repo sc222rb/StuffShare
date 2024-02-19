@@ -36,6 +36,9 @@ public class MainMenu {
             case ListMembers:
               listMembers();
               break;
+            case Quit:
+              running = false;
+              break;
             default:
               memberView.printMembers(lendingModel.getMembers());
               break;

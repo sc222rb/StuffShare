@@ -16,11 +16,12 @@ public class MainMenuView {
   public static enum MainMenuEvent {
     AddMember,
     ListMembers,
-    DeleteMember,
-
+    Quit,
+    DeleteMember
   }
 
   public Optional<MainMenuEvent> showMainMenu() {
+    final String quitString = "quit";
     final String addString = "add";
     final String deleteString = "delete";
     final String listString = "list";
@@ -29,10 +30,14 @@ public class MainMenuView {
     System.out.println(" " + addString + " - Add New Member");
     System.out.println(" " + listString + " - List Members");
     System.out.println(" " + deleteString + " - Delete a Member");
+    System.out.println(" " + quitString + " - Quit");
+    System.out.println(" ==============");
 
     String choice = input.nextLine();
 
     switch (choice) {
+      case quitString:
+        return Optional.of(MainMenuEvent.Quit);
       case addString:
         return Optional.of(MainMenuEvent.AddMember);
       case deleteString:
