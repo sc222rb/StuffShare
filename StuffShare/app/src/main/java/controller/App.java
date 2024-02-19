@@ -14,9 +14,11 @@ public class App {
   public static void main(String[] args) {
 
     Scanner scanner = new Scanner(System.in, "UTF8");
-    view.MainMenuView mainMenu = new view.EnglishMainMenuView(scanner);
-    view.MemberView memberView = new view.MemberView(scanner);
+    //view.MainMenuView mainMenu = new view.EnglishMainMenuView(scanner);
+    //view.MemberView memberView = new view.EnglishMemberView(scanner);
     view.SystemView systemView = new view.SystemView(scanner);
+    view.MainMenuView mainMenu = new view.SwedishMainMenuView(scanner);
+    view.MemberView memberView = new view.SwedishMemberView(scanner);
 
     model.LendingModel lendingModel = new model.LendingModel();
     controller.MainMenu mm = new controller.MainMenu(mainMenu, memberView, systemView, lendingModel);
