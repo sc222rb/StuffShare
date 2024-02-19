@@ -1,6 +1,8 @@
 package controller;
 
+import java.util.Optional;
 import model.LendingModel;
+import model.Member;
 import view.MainMenuView;
 import view.MemberView;
 
@@ -15,8 +17,43 @@ public class MainMenu {
     this.lendingModel = new model.LendingModel();
   }
 
+  /**
+   * Starts the application.
+   */
   public void doMainMenu() {
-    createNewMember();
+    boolean running = true;
+    while (running) {
+      try {
+          Optional<MainMenuView.MainMenuEvent> action = mainMenuView.showMainMenu();
+
+          switch (action.get()) {
+            case AddMember:
+              createNewMember();
+              break;
+            case DeleteMember:
+              deleteMember();
+              break;
+            case ListMembers:
+              listMembers();
+              break;
+            default:
+              memberView.printMembers(lendingModel.getMembers());
+              break;
+          }
+        }
+     catch (Exception e) {
+        // show the error and reset the application state
+        mainMenuView.errorMessage(e.getMessage());
+      }
+    }
+  }
+  private void listMembers() {
+    memberView.printMembers(lendingModel.getMembers());
+  }
+
+  private void deleteMember() {
+    model.Member deleteMember = memberView.getSelectedMember(lendingModel.getMembers());
+    lendingModel.deleteMember(deleteMember);
   }
 
   private void createNewMember() {

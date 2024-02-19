@@ -2,10 +2,6 @@ package view;
 
 import java.util.Optional;
 import java.util.Scanner;
-import model.LendingModel;
-import model.Member;
-import model.Member.Email;
-import model.Member.PhoneNumber;
 
 public class MainMenuView {
   public Scanner input;
@@ -18,21 +14,38 @@ public class MainMenuView {
    * Represents the main menu actions.
    */
   public static enum MainMenuEvent {
-    AddMember
+    AddMember,
+    ListMembers,
+    DeleteMember,
+
   }
 
-  public Optional<MainMenuEvent> showMainMenu(){
+  public Optional<MainMenuEvent> showMainMenu() {
     final String addString = "add";
+    final String deleteString = "delete";
+    final String listString = "list";
 
     System.out.println(" == Main Menu ==");
     System.out.println(" " + addString + " - Add New Member");
-    String choice = input.nextLine(); 
+    System.out.println(" " + listString + " - List Members");
+    System.out.println(" " + deleteString + " - Delete a Member");
+
+    String choice = input.nextLine();
 
     switch (choice) {
       case addString:
         return Optional.of(MainMenuEvent.AddMember);
+      case deleteString:
+        return Optional.of(MainMenuEvent.DeleteMember);
+      case listString:
+        return Optional.of(MainMenuEvent.ListMembers);
       default:
         return Optional.empty();
     }
+  }
+
+  public void errorMessage(String message) {
+    System.out.println("\n=== Error! ===");
+    System.out.println(message + "\n");
   }
 }

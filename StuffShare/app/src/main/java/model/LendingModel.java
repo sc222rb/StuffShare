@@ -1,9 +1,14 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import model.Member.Email;
 import model.Member.PhoneNumber;
 
 public class LendingModel {
+
+  private List<Member> registeredMembers = new ArrayList<Member>();
+
   public LendingModel() {
     // some hard coded members for now
     Email email0 = new Email("allan@turing.com");
@@ -25,6 +30,10 @@ public class LendingModel {
     addNewMember(member2);
   }
 
+  public Iterable<Member> getMembers() {
+    return new ArrayList<>(registeredMembers);
+  }
+
   /**
    * Adds a new member to the system with the provided Name, Email, PhoneNumber,
    * if a member with the same Email address does not already exist in the system.
@@ -32,10 +41,20 @@ public class LendingModel {
    * @param name        The Name of the new member.
    * @param email       The Email address of the new member.
    * @param phoneNumber The PhoneNumber of the new member.
-   * @return The new Member object if the member was successfully added.
+   * @return The newly added Member object if it was successfully added, or null
+   *         if a member with the same Email address already exists in the system.
    */
   public Member addNewMember(String id, String name, Email email, PhoneNumber phoneNumber) {
+    for (Member member : registeredMembers) {
+      if (member.getEmail().equals(email)) {
+        throw new IllegalArgumentException("Email is already registered");
+      }
+      if (member.getPhoneNumber().equals(phoneNumber)) {
+        throw new IllegalArgumentException("Phone Number is already registered");
+      }
+    }
     Member m = new Member(id, name, email, phoneNumber);
+    registeredMembers.add(m);
     return m;
   }
 
@@ -48,4 +67,14 @@ public class LendingModel {
   public Member addNewMember(Member member) {
     return addNewMember(member.generateMemberId(), member.getName(), member.getEmail(), member.getPhoneNumber());
   }
+
+  /**
+   * Deletes a member from the registry.
+   *
+   * @param member The member data to use.
+   */
+  public void deleteMember(Member member) {
+    registeredMembers.remove(member);
+  }
+
 }

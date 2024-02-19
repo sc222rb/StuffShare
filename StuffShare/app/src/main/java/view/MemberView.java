@@ -59,4 +59,36 @@ public class MemberView {
     }
   }
 
+  public void printMemberVerbose(Member m) {
+    System.out.println("Name : " + m.getName() + " Email: " + m.getEmail().emailStr());
+  }
+
+  public void printMembersVerbose(Iterable<? extends Member> members) {
+    for (Member m : members) {
+      printMemberVerbose(m);
+    }
+  }
+
+  public <T extends Member> T getSelectedMember(Iterable<T> members) {
+    int ix = 0;
+    System.out.println("");
+    for (Member m : members) {
+      System.out.println("" + ix + " " + m.getName() + " id: " + m.getId());
+      ix++;
+    }
+
+    System.out.print("Enter member index to select: ");
+    final int selected = Integer.parseInt(input.nextLine());
+
+    ix = 0;
+    for (T m : members) {
+      if (ix == selected) {
+        return m;
+      }
+      ix++;
+    }
+
+    return null;
+  }
+
 }
