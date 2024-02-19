@@ -22,33 +22,49 @@ public class MainMenu {
    */
   public void doMainMenu() {
     boolean running = true;
+    Member selectedMember = null;
     while (running) {
       try {
-        Optional<MainMenuView.MainMenuEvent> action = mainMenuView.showMainMenu();
+        if (selectedMember != null) {
+          if (!doMemberMenu(selectedMember)) {
+            selectedMember = null;
+          }
+        } else {
+          Optional<MainMenuView.MainMenuEvent> action = mainMenuView.showMainMenu();
 
-        switch (action.get()) {
-          case AddMember:
-            createNewMember();
-            break;
-          case EditMember:
-            editMember();
-            break;
-          case DeleteMember:
-            deleteMember();
-            break;
-          case ListMembers:
-            listMembers();
-            break;
-          case Quit:
-            running = false;
-            break;
-          default:
-            memberView.printMembers(lendingModel.getMembers());
-            break;
+          if (!action.isPresent()) {
+            mainMenuView.errorMessage("Unknown Command");
+            continue;
+          }
+
+          switch (action.get()) {
+            case AddMember:
+              createNewMember();
+              break;
+            case SelectMember:
+              selectedMember = memberView.getSelectedMember(lendingModel.getMembers());
+              break;
+            case EditMember:
+              editMember();
+              break;
+            case DeleteMember:
+              deleteMember();
+              break;
+            case ListMembers:
+              listMembers();
+              break;
+            case Quit:
+              running = false;
+              break;
+            default:
+              memberView.printMembers(lendingModel.getMembers());
+              break;
+          }
         }
       } catch (Exception e) {
         // show the error and reset the application state
         mainMenuView.errorMessage(e.getMessage());
+        selectedMember = null;
       }
     }
   }
@@ -73,6 +89,12 @@ public class MainMenu {
     model.Member newMember = memberView.createNewMember();
     model.Member createdmember = lendingModel.addNewMember(newMember);
     memberView.printMember(createdmember);
+  }
+
+  private boolean doMemberMenu(Member selectedMember) {
+    System.out.println("Selected member: " + selectedMember.getName());
+    return false
+    ;
   }
 
 }

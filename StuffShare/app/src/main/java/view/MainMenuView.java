@@ -17,6 +17,7 @@ public class MainMenuView {
     AddMember,
     ListMembers,
     Quit,
+    SelectMember,
     DeleteMember,
     EditMember
   }
@@ -24,6 +25,7 @@ public class MainMenuView {
   public Optional<MainMenuEvent> showMainMenu() {
     final String quitString = "quit";
     final String addString = "add";
+    final String selectString = "select";
     final String deleteString = "delete";
     final String listString = "list";
     final String editString = "edit";
@@ -31,6 +33,7 @@ public class MainMenuView {
     System.out.println(" == Main Menu ==");
     System.out.println(" " + addString + " - Add New Member");
     System.out.println(" " + listString + " - List Members");
+    System.out.println(" " + selectString + " - Select a Member");
     System.out.println(" " + editString + " - Edit a member");
     System.out.println(" " + deleteString + " - Delete a Member");
     System.out.println(" " + quitString + " - Quit");
@@ -43,6 +46,8 @@ public class MainMenuView {
         return Optional.of(MainMenuEvent.Quit);
       case addString:
         return Optional.of(MainMenuEvent.AddMember);
+      case selectString:
+        return Optional.of(MainMenuEvent.SelectMember);
       case editString:
         return Optional.of(MainMenuEvent.EditMember);
       case deleteString:
