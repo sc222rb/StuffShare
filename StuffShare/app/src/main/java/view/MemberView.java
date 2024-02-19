@@ -161,4 +161,37 @@ public class MemberView {
     return new Item(category, name, description, cost, dayOfCreation);
   }
 
+  public void printItem(Item item) {
+    System.out.println(
+        "Category: " + item.getCategory() + " name : " + item.getName() + ": " + item.getCost());
+  }
+
+  public void printItems(Iterable<? extends Item> items) {
+    for (Item item : items) {
+      printItem(item);
+    }
+  }
+
+  public <T extends Item> T getSelectedItem(Iterable<T> items) {
+    int ix = 0;
+    System.out.println("");
+    for (Item item : items) {
+      System.out.println("" + ix + " " + item.getName());
+      ix++;
+    }
+
+    System.out.print("Enter item index to select: ");
+    final int selected = Integer.parseInt(input.nextLine());
+
+    ix = 0;
+    for (T item : items) {
+      if (ix == selected) {
+        return item;
+      }
+      ix++;
+    }
+
+    return null;
+  }
+
 }

@@ -94,11 +94,20 @@ public class MainMenu {
   }
 
   private boolean doMemberMenu(Member selectedMember) {
+    Item selectedItem = null;
     MemberView.Event action = memberView.showMemberMenu(selectedMember);
     switch (action) {
       default:
       case AddItem:
         createNewItem(selectedMember);
+        break;
+      case View:
+        selectedItem = memberView.getSelectedItem(selectedMember.getItems());
+        memberView.printItem(selectedItem);
+        break;
+      case Delete:
+        selectedItem = memberView.getSelectedItem(selectedMember.getItems());
+        selectedMember.deleteItem(selectedItem);
         break;
       case Back:
         return false;

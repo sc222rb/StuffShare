@@ -241,4 +241,14 @@ public class Member {
     credits += bonusCredits;
   }
 
+  /**
+   * Deletes an item from the registry.
+   *
+   * @param item The item data to use.
+   * 
+   */
+  public void deleteItem(Item item) {
+    ownedItems.remove(item);
+  }
+
 }
