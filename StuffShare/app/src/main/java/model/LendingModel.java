@@ -77,4 +77,33 @@ public class LendingModel {
     registeredMembers.remove(member);
   }
 
+  /**
+   * Edits a member from the registry.
+   *
+   * @param editedMember The member data to use.
+   */
+  public void editMember(Member editedMember) {
+    String id = editedMember.getId();
+    Email email = editedMember.getEmail();
+    PhoneNumber phoneNumber = editedMember.getPhoneNumber();
+    for (Member member : registeredMembers) {
+      if (!id.equals(member.getId())) {
+        if (member.getEmail().equals(email)) {
+          throw new IllegalArgumentException("Email is already registered");
+        }
+        if (member.getPhoneNumber().equals(phoneNumber)) {
+          throw new IllegalArgumentException("Phone Number is already registered");
+        }
+      }
+    }
+    for (int i = 0; i < registeredMembers.size(); i++) {
+      Member m = registeredMembers.get(i);
+      if (m != null && id.equals(m.getId())) {
+        // Replace the existing member with the edited member
+        registeredMembers.set(i, editedMember);
+        return; // Exit the loop once the member is updated
+      }
+    }
+    return;
+  }
 }

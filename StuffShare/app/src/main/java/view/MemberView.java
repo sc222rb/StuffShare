@@ -1,6 +1,7 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Scanner;
 
 import model.Member;
@@ -40,6 +41,20 @@ public class MemberView {
     PhoneNumber phoneNumber = new PhoneNumber(phoneNumberStr);
 
     return new Member(name, email, phoneNumber);
+  }
+
+  public Member editMember(Member selectedMember) {
+    System.out.println("Enter the name: ");
+    final String name = input.nextLine();
+    System.out.println("email: ");
+    String emailStr = input.nextLine();
+    System.out.println("phone number: ");
+    String phoneNumberStr = input.nextLine();
+    String id = selectedMember.getId();
+    Email email = new Email(emailStr);
+    PhoneNumber phoneNumber = new PhoneNumber(phoneNumberStr);
+
+    return new Member(id, name, email, phoneNumber);
   }
 
   public void printMember(Member m) {
