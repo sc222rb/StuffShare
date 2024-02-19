@@ -1,15 +1,12 @@
 package view;
 
 import java.util.Optional;
-import java.util.Scanner;
 
-public class MainMenuView {
-  public Scanner input;
-
-  public MainMenuView(Scanner input) {
-    this.input = input;
-  }
-
+/**
+ * Represents a console/terminal driven user interface.
+ */
+public interface MainMenuView {
+  
   /**
    * Represents the main menu actions.
    */
@@ -19,48 +16,16 @@ public class MainMenuView {
     Quit,
     SelectMember,
     DeleteMember,
-    EditMember
+    EditMember,
+    ProgressDays
   }
 
-  public Optional<MainMenuEvent> showMainMenu() {
-    final String quitString = "quit";
-    final String addString = "add";
-    final String selectString = "select";
-    final String deleteString = "delete";
-    final String listString = "list";
-    final String editString = "edit";
+  /**
+   * Shows the main menu.
 
-    System.out.println(" == Main Menu ==");
-    System.out.println(" " + addString + " - Add New Member");
-    System.out.println(" " + listString + " - List Members");
-    System.out.println(" " + selectString + " - Select a Member");
-    System.out.println(" " + editString + " - Edit a member");
-    System.out.println(" " + deleteString + " - Delete a Member");
-    System.out.println(" " + quitString + " - Quit");
-    System.out.println(" ==============");
+   * @return the users selected action.
+   */
+  public Optional<MainMenuEvent> showMainMenu();
 
-    String choice = input.nextLine();
-
-    switch (choice) {
-      case quitString:
-        return Optional.of(MainMenuEvent.Quit);
-      case addString:
-        return Optional.of(MainMenuEvent.AddMember);
-      case selectString:
-        return Optional.of(MainMenuEvent.SelectMember);
-      case editString:
-        return Optional.of(MainMenuEvent.EditMember);
-      case deleteString:
-        return Optional.of(MainMenuEvent.DeleteMember);
-      case listString:
-        return Optional.of(MainMenuEvent.ListMembers);
-      default:
-        return Optional.empty();
-    }
-  }
-
-  public void errorMessage(String message) {
-    System.out.println("\n=== Error! ===");
-    System.out.println(message + "\n");
-  }
+  public void errorMessage(String message);
 }

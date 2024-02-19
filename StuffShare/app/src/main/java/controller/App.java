@@ -14,7 +14,7 @@ public class App {
   public static void main(String[] args) {
 
     Scanner scanner = new Scanner(System.in, "UTF8");
-    view.MainMenuView mainMenu = new view.MainMenuView(scanner);
+    view.MainMenuView mainMenu = new view.EnglishMainMenuView(scanner);
     view.MemberView memberView = new view.MemberView(scanner);
     view.SystemView systemView = new view.SystemView(scanner);
 
