@@ -109,6 +109,12 @@ public class MainMenu {
         selectedItem = memberView.getSelectedItem(selectedMember.getItems());
         selectedMember.deleteItem(selectedItem);
         break;
+      case Edit:
+        selectedItem = memberView.getSelectedItem(selectedMember.getItems());
+        memberView.printItem(selectedItem);
+        Item editedItem = memberView.editItem(selectedItem);
+        selectedMember.replaceItem(selectedItem, editedItem);
+        break;
       case Back:
         return false;
     }

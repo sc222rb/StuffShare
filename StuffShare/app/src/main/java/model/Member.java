@@ -242,6 +242,43 @@ public class Member {
   }
 
   /**
+   * Checks if a edited item can be added to a group without overlapping with any
+   * existing items name.
+   *
+   * @param editedItem the edited item to be added
+   * @return true if the edited item's name does not overlap with any existing
+   *         item's name,
+   *         false otherwise
+   */
+  public boolean canEditItem(Item editedItem, Item exclude) {
+    for (Item item : getItems()) {
+      if (item != exclude && item.overlaps(editedItem)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Replaces an item.
+   *
+   * @param selectedItem The old item information.
+   * @param editedItem   The new item information.
+   */
+  public void replaceItem(Item selectedItem, Item editedItem) {
+    if (!canEditItem(editedItem, selectedItem)) {
+      throw new IllegalArgumentException("Unable to edit item");
+    }
+    int ix = ownedItems.indexOf(selectedItem);
+
+    if (ix != -1) {
+      ownedItems.set(ix, editedItem);
+    } else {
+      throw new IllegalArgumentException("We can't edit the item.");
+    }
+  }
+
+  /**
    * Deletes an item from the registry.
    *
    * @param item The item data to use.

@@ -161,6 +161,22 @@ public class MemberView {
     return new Item(category, name, description, cost, dayOfCreation);
   }
 
+  public Item editItem(Item selectedItem) {
+    System.out.println("Category: Tool, Vehicle, Game, Toy, Sport or Other: ");
+    final String categoryStr = input.nextLine();
+    final Category category = Category.valueOf(categoryStr); // convert to enum
+    System.out.println("Item's name: ");
+    final String name = input.nextLine();
+    System.out.println("Item's descriotion: ");
+    String description = input.nextLine();
+    System.out.println("Item's cost: ");
+    int cost = Integer.parseInt(input.nextLine());
+    System.out.println("Day of creation: ");
+    int dayOfCreation = Integer.parseInt(input.nextLine());
+
+    return new Item(category, name, description, cost, dayOfCreation);
+  }
+
   public void printItem(Item item) {
     System.out.println(
         "Category: " + item.getCategory() + " name : " + item.getName() + ": " + item.getCost());
